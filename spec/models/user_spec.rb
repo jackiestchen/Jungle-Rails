@@ -8,8 +8,8 @@ RSpec.describe User, type: :model do
       @user = User.new({
         name: "Jack",
         email: "test1@test.com",
-        password: "12345",
-        password_confirmation: "12345"
+        password: "1234567",
+        password_confirmation: "1234567"
       })
 
       expect(@user).to be_valid
@@ -35,8 +35,8 @@ RSpec.describe User, type: :model do
       @user = User.new({
         name: "Jack",
         email: "test1@test.com",
-        password: "12345",
-        password_confirmation: "123456"
+        password: "1234577",
+        password_confirmation: "1234567"
       })
 
       expect(@user).to_not be_valid
@@ -49,8 +49,8 @@ RSpec.describe User, type: :model do
       @user = User.new({
         name: "Jack",
         email: nil,
-        password: "123456",
-        password_confirmation: "123456"
+        password: "1234567",
+        password_confirmation: "1234567"
       })
 
       expect(@user).to_not be_valid
@@ -62,8 +62,8 @@ RSpec.describe User, type: :model do
       @user = User.new({
         name: nil,
         email: "test1@test.com",
-        password: "123456",
-        password_confirmation: "123456"
+        password: "1234567",
+        password_confirmation: "1234567"
       })
 
       expect(@user).to_not be_valid
@@ -76,8 +76,8 @@ RSpec.describe User, type: :model do
         @user = User.new({
           name: "Jacky",
           email: "test@test.com",
-          password: "123456",
-          password_confirmation: "123456"
+          password: "1234567",
+          password_confirmation: "1234567"
         })
         @user.save
       end
@@ -87,12 +87,33 @@ RSpec.describe User, type: :model do
         @user2 = User.new({
           name: "Jacky",
           email: "test@test.com",
-          password: "123456",
-          password_confirmation: "123456"
+          password: "1234567",
+          password_confirmation: "1234567"
         })
   
         expect(@user2).to_not be_valid  
         expect(@user.errors[:email]).to include("has already been taken")
+      end
+    end
+
+    describe "minimum password legnth"  do
+      subject { 
+          described_class.new(
+          name: "Jacky",
+          email: "test@test.com",
+          password: "1234567",
+          password_confirmation: "1234567"
+          )
+      }
+
+      it "should not be created with password less than 6" do
+
+        subject.password = "12345"
+        subject.password_confirmation = "12345"
+
+  
+        expect(subject).to_not be_valid  
+        expect(subject.errors[:password]).to include("is too short (minimum is 6 characters)")
       end
     end
 
