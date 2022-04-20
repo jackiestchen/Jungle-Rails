@@ -7,6 +7,10 @@ class SessionsController < ApplicationController
   def create
 
     if user = User.authenticate_with_credentials(params[:email], params[:password])
+      print "SESSION CONTROLLER MESSAGE"
+      print user.valid?
+      print user.errors.full_messages
+
       session[:user_id] = user.id
       redirect_to :root
     else
