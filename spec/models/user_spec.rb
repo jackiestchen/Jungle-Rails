@@ -73,14 +73,13 @@ RSpec.describe User, type: :model do
 
     describe "email uniqueness"  do
       before(:all) do
-        @user = User.new({
+        @user = User.create!({
           name: "Jacky",
           email: "test@test.com",
           password: "1234567",
           password_confirmation: "1234567"
         })
-        @user.save
-      end
+     end
 
       it "should not be created with email alreay in database" do
 
@@ -90,9 +89,9 @@ RSpec.describe User, type: :model do
           password: "1234567",
           password_confirmation: "1234567"
         })
-  
+          
         expect(@user2).to_not be_valid  
-        expect(@user.errors[:email]).to include("has already been taken")
+        expect(@user2.errors[:email]).to include("has already been taken")
       end
     end
 
@@ -118,6 +117,28 @@ RSpec.describe User, type: :model do
     end
 
     
+
+  end
+
+
+  describe '.authenticate_with_credentials' do
+    before(:all) do
+      @user = User.create!({
+        name: "Jacky",
+        email: "test2@test.com",
+        password: "abcdefg",
+        password_confirmation: "abcdefg"
+      })
+    end
+
+    it "should authenticate with proper credentials" do
+      email = "test2@test.com"
+      password = "abcdefg"
+      @user1 = User.authenticate_with_credentials(email, password)
+
+      expect(@user1).not_to be_nil
+
+    end
 
   end
 end
