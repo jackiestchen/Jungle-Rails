@@ -137,7 +137,24 @@ RSpec.describe User, type: :model do
       @user1 = User.authenticate_with_credentials(email, password)
 
       expect(@user1).not_to be_nil
+    end
 
+
+    it "should authenticate with spaces before and after email" do
+      email = " test2@test.com "
+      password = "abcdefg"
+      @user1 = User.authenticate_with_credentials(email, password)
+
+      expect(@user1).not_to be_nil
+    end
+
+
+    it "should authenticate with wrong cases in email" do
+      email = "TeSt2@TesT.com"
+      password = "abcdefg"
+      @user1 = User.authenticate_with_credentials(email, password)
+
+      expect(@user1).not_to be_nil
     end
 
   end
