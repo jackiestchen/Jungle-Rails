@@ -1,5 +1,14 @@
 <h1>Signup!</h1>
 
+<% flash.each do |type, msg|%>
+  <div class="alert alert-danger">
+  <% msg.each do |message| %>
+  <%= message %>
+  <br/>
+  <% end %>
+  </div>
+<% end %>
+
 <%= form_for :user, url: '/users' do |f| %>
 
   <label for="name">Full name</label><br/>

@@ -5,13 +5,16 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.create(user_params)
-    if user.save
-      session[:user_id] = user.id
-      redirect_to :root
-    else
-      redirect_to '/signup'
-    end
+
+      user = User.create(user_params)
+      if user.save
+        session[:user_id] = user.id
+        redirect_to :root
+      else
+        flash.alert = user.errors.full_messages
+        redirect_to '/signup'
+      end
+
   end
 
   private
