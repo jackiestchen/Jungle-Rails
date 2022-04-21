@@ -73,7 +73,7 @@ RSpec.describe User, type: :model do
 
     describe "email uniqueness"  do
       before(:all) do
-        @user = User.create!({
+        @user = User.create({
           name: "Jacky",
           email: "test@test.com",
           password: "1234567",
@@ -137,6 +137,22 @@ RSpec.describe User, type: :model do
       @user1 = User.authenticate_with_credentials(email, password)
 
       expect(@user1).not_to be_nil
+    end
+
+    it "should not authenticate with invalid email" do
+      email = "test1@test.com"
+      password = "abcdefg"
+      @user1 = User.authenticate_with_credentials(email, password)
+
+      expect(@user1).to be_nil
+    end
+
+    it "should not authenticate with invalid password" do
+      email = "test1@test.com"
+      password = "abcdef2"
+      @user1 = User.authenticate_with_credentials(email, password)
+
+      expect(@user1).to be_nil
     end
 
 
